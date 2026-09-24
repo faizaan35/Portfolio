@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: #F6F5F2;
+    color: #121316;
+  }
+
+  /* Precision engineering scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F6F5F2;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #D4D1C7;
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #A2A7B5;
+  }
+
+  ::selection {
+    background-color: #121316;
+    color: #F6F5F2;
+  }
+}
+
+/* Technical blueprint millimeter grid */
+.blueprint-grid {
+  background-size: 38px 38px;
+  background-image: 
+    linear-gradient(to right, rgba(18, 19, 22, 0.038) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(18, 19, 22, 0.038) 1px, transparent 1px);
+}
+
+.hairline-border {
+  border: 1px solid rgba(18, 19, 22, 0.12);
+}
+.hairline-t {
+  border-top: 1px solid rgba(18, 19, 22, 0.12);
+}
+.hairline-b {
+  border-bottom: 1px solid rgba(18, 19, 22, 0.12);
+}
+
+/* React Bits Depth Carousel Base Styles */
+.depth-carousel-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  user-select: none;
+  touch-action: pan-y;
+}
+
+.depth-carousel-stage {
+  position: relative;
+  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.depth-carousel-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+  cursor: pointer;
+}
+
+.depth-carousel-card.is-active {
+  cursor: default;
+}

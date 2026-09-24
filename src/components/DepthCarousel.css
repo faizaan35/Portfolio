@@ -1,0 +1,31 @@
+.depth-carousel-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  user-select: none;
+  touch-action: pan-y;
+}
+
+.depth-carousel-stage {
+  position: relative;
+  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.depth-carousel-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+  cursor: pointer;
+}
+
+.depth-carousel-card.is-active {
+  cursor: default;
+}
