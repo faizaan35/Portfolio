@@ -66,6 +66,19 @@ export default function MobileScrollExperience({
       end: 'bottom bottom',
       pin: stage,
       scrub: 0.4,
+      snap: {
+        // Checkpoints corresponding to 100% visually complete states:
+        // 0.00: Intro Hero (header visible, hero title & CTA, hero terminal framing)
+        // 0.35: Engineering (header hidden, competencies CRT active, core chips 100% opaque)
+        // 0.58: Projects (header hidden, EmberDB/project CRT active, controller 100% opaque & interactive)
+        // 0.80: Journey (header hidden, trajectory CRT active, trajectory card 100% opaque)
+        // 1.00: Contact & Release (header restored, contact CRT active, action cards 100% opaque)
+        snapTo: [0.0, 0.35, 0.58, 0.80, 1.0],
+        directional: false,
+        duration: { min: 0.18, max: 0.36 },
+        delay: 0.12,
+        ease: 'power2.out'
+      },
       onUpdate: (self) => {
         const p = self.progress;
         setScrollProgress(p);
@@ -169,10 +182,10 @@ export default function MobileScrollExperience({
     <div ref={containerRef} className="relative w-full h-[520vh]">
       {/* Anchor targets placed down the track for header navigation */}
       <div id="intro" className="absolute top-0 left-0 w-full h-1 pointer-events-none" />
-      <div id="engineering" className="absolute top-[24%] left-0 w-full h-1 pointer-events-none" />
-      <div id="projects" className="absolute top-[50%] left-0 w-full h-1 pointer-events-none" />
-      <div id="journey" className="absolute top-[75%] left-0 w-full h-1 pointer-events-none" />
-      <div id="contact" className="absolute top-[92%] left-0 w-full h-1 pointer-events-none" />
+      <div id="engineering" className="absolute top-[35%] left-0 w-full h-1 pointer-events-none" />
+      <div id="projects" className="absolute top-[58%] left-0 w-full h-1 pointer-events-none" />
+      <div id="journey" className="absolute top-[80%] left-0 w-full h-1 pointer-events-none" />
+      <div id="contact" className="absolute top-[100%] -translate-y-full left-0 w-full h-1 pointer-events-none" />
 
       {/* Pinned Viewport Container - True full viewport, no empty header padding */}
       <div

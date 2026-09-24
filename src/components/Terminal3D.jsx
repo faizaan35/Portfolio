@@ -101,12 +101,6 @@ export default function Terminal3D() {
       emissiveIntensity: 0.35
     });
 
-    const ledGreenMat = new THREE.MeshStandardMaterial({
-      color: 0x10B981,
-      emissive: 0x10B981,
-      emissiveIntensity: 1.8,
-      roughness: 0.2
-    });
 
     const screenGlassMat = new THREE.MeshPhysicalMaterial({
       color: 0x0A0D12,
@@ -189,11 +183,7 @@ export default function Terminal3D() {
     btnA.position.set(0.44, 0.05, 0);
     controlsGroup.add(btnA);
 
-    // Status Pinhole LED
-    const statusLed = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.04, 12), ledGreenMat);
-    statusLed.rotation.x = Math.PI / 2;
-    statusLed.position.set(-0.48, 0.88, 0.105);
-    terminalRoot.add(statusLed);
+
 
     const screenWidth = 1.25;
     const screenHeight = 1.30;
