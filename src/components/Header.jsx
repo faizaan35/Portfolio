@@ -61,10 +61,6 @@ export default function Header({ activeSection, isMuted, setIsMuted, onTriggerSo
             <span className={`w-1.5 h-1.5 rounded-full ${isMuted ? 'bg-charcoal-400' : 'bg-engineering-amber'}`}></span>
             <span>AUDIO: {isMuted ? 'MUTED' : 'ON'}</span>
           </button>
-
-          <span className="hidden sm:inline-block font-mono text-[10px] text-charcoal-400 border border-charcoal-900/10 px-2 py-1 rounded bg-paper-elevated">
-            MF-SYS // REV.26
-          </span>
         </div>
       </div>
     </header>

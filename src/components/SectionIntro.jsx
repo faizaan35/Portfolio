@@ -5,11 +5,7 @@ export default function SectionIntro({ onTriggerSound }) {
     <section id="intro" className="min-h-screen relative flex flex-col justify-between pt-28 pb-12 px-6 max-w-7xl mx-auto">
       <div className="flex flex-wrap items-center justify-between gap-4 font-mono text-xs text-charcoal-400 hairline-b pb-4">
         <div className="flex items-center gap-3">
-          <span className="text-charcoal-800 font-semibold">SPEC: CS // SYSTEMS & ENGINES</span>
-          <span>•</span>
-          <span>DISPATCH: READY</span>
-          <span>•</span>
-          <span className="text-engineering-amber font-mono">LATENCY: DETERMINISTIC</span>
+          <span className="text-charcoal-800 font-semibold">CS // SYSTEMS & SOFTWARE</span>
         </div>
         <div className="flex items-center gap-2 text-charcoal-600">
           <span className="w-2 h-2 rounded-full bg-engineering-amber animate-ping"></span>
@@ -56,9 +52,8 @@ export default function SectionIntro({ onTriggerSound }) {
       </div>
 
       <div className="flex items-end justify-between font-mono text-xs hairline-t pt-4 text-charcoal-400">
-        <div className="flex items-center gap-2">
-          <span className="font-mono text-charcoal-700 font-semibold">DEVICE ATTITUDE:</span>
-          <span id="telemetry-display">PITCH: 0.0° / YAW: 0.0°</span>
+        <div className="text-charcoal-500 font-mono">
+          SYSTEMS & SOFTWARE
         </div>
         <div className="flex items-center gap-2 text-charcoal-700 animate-bounce">
           <span className="font-semibold tracking-wider">SCROLL TO EXPLORE</span>

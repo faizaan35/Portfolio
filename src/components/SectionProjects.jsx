@@ -22,14 +22,14 @@ export default function SectionProjects({ selectedProject, setSelectedProject, o
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 hairline-b pb-6">
         <div>
           <div className="font-mono text-xs text-engineering-amber tracking-widest uppercase mb-2 font-bold">
-            03 // INDEXED IMPLEMENTATIONS
+            03 // PROJECTS
           </div>
           <h2 className="text-4xl sm:text-5xl font-display font-bold tracking-tight text-charcoal-900">
             Selected Engineered Systems
           </h2>
         </div>
         <p className="font-mono text-xs text-charcoal-500 mt-2 md:mt-0 font-medium">
-          SWIPE / DRAG DEPTH CAROUSEL TO ROTATE ACTIVE DOSSIER
+          DRAG / SCROLL TO EXPLORE PROJECTS
         </p>
       </div>
 
@@ -73,9 +73,11 @@ export default function SectionProjects({ selectedProject, setSelectedProject, o
                     <span className="font-mono text-[10px] tracking-widest text-engineering-amber font-bold uppercase">
                       {project.type}
                     </span>
-                    <span className="font-mono text-[10px] text-charcoal-400">
-                      {isActive ? '● ACTIVE DOSSIER' : 'STANDBY'}
-                    </span>
+                    {isActive && (
+                      <span className="font-mono text-[10px] text-engineering-amber font-semibold">
+                        ● FEATURED
+                      </span>
+                    )}
                   </div>
 
                   {/* Title */}
@@ -186,23 +188,12 @@ export default function SectionProjects({ selectedProject, setSelectedProject, o
 
             <div className="hidden sm:flex items-center gap-2 text-[10px] text-charcoal-400">
               <span>DRAG / ARROWS / WHEEL</span>
-              <span>•</span>
-              <span>HARDWARE SYNCED</span>
             </div>
           </div>
         </div>
 
-        {/* Right Column: Clean Unobstructed Viewing Corridor for the 3D Terminal */}
-        <div className="hidden lg:flex lg:col-span-6 xl:col-span-6 flex-col justify-between items-center pointer-events-none min-h-[500px] p-6 opacity-40 font-mono text-[10px] text-charcoal-400 select-none">
-          <div className="w-full flex justify-between items-center">
-            <span>+ TERMINAL VIEWPORT // DOSSIER INSPECTOR</span>
-            <span>CH_03 // ACTIVE TELEMETRY</span>
-          </div>
-          <div className="w-full flex justify-between items-center">
-            <span>SCREEN SYNCHRONIZED WITH DEPTH CAROUSEL</span>
-            <span>CORRIDOR CLEAR +</span>
-          </div>
-        </div>
+        {/* Right Column: Clean Unobstructed Viewing Area for the 3D Terminal */}
+        <div className="hidden lg:block lg:col-span-6 xl:col-span-6 min-h-[500px] pointer-events-none" />
       </div>
     </section>
   );

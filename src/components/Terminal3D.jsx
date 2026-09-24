@@ -269,18 +269,13 @@ export default function Terminal3D() {
       screenCtx.fillStyle = '#14181F';
       screenCtx.fillRect(0, 0, w, 56);
 
-      screenCtx.fillStyle = '#737887';
-      screenCtx.font = '600 22px "JetBrains Mono", monospace';
-      screenCtx.fillText('DEV_TERM // X1', 36, 38);
-
       screenCtx.fillStyle = '#C86414';
-      screenCtx.fillText(`[${activeSec.toUpperCase()}]`, 400, 38);
-
-      screenCtx.fillStyle = '#10B981';
-      screenCtx.fillText('● OK', 800, 38);
+      screenCtx.font = '700 22px "JetBrains Mono", monospace';
+      screenCtx.fillText('MOHD FAIZAAN', 36, 38);
 
       screenCtx.fillStyle = '#737887';
-      screenCtx.fillText('99%', 920, 38);
+      screenCtx.font = '600 20px "JetBrains Mono", monospace';
+      screenCtx.fillText(`[${activeSec.toUpperCase()}]`, 820, 38);
 
       screenCtx.fillStyle = '#262B35';
       screenCtx.fillRect(0, 56, w, 2);
@@ -293,16 +288,12 @@ export default function Terminal3D() {
         screenCtx.fillRect(0, sweepY - 45, w, 45);
         screenCtx.fillStyle = '#C86414';
         screenCtx.fillRect(0, sweepY, w, 2.5);
-
-        screenCtx.fillStyle = '#C86414';
-        screenCtx.font = '600 20px "JetBrains Mono", monospace';
-        screenCtx.fillText('// SYNCING DOSSIER STREAM...', 50, 95);
       }
 
       if (activeSec === 'intro') {
         screenCtx.fillStyle = '#737887';
         screenCtx.font = '500 24px "JetBrains Mono", monospace';
-        screenCtx.fillText('DEV ENVIRONMENT INITIALIZED', 50, 160);
+        screenCtx.fillText('PORTFOLIO // OVERVIEW', 50, 160);
 
         screenCtx.fillStyle = '#FFFFFF';
         screenCtx.font = '800 78px "Space Grotesk", sans-serif';
@@ -312,31 +303,44 @@ export default function Terminal3D() {
         screenCtx.font = '700 32px "JetBrains Mono", monospace';
         screenCtx.fillText('SYSTEMS / SOFTWARE', 50, 360);
 
-        screenCtx.fillStyle = '#181E28';
-        screenCtx.fillRect(50, 440, 340, 72);
-        screenCtx.strokeStyle = '#C86414';
-        screenCtx.lineWidth = 2;
-        screenCtx.strokeRect(50, 440, 340, 72);
+        screenCtx.fillStyle = '#141820';
+        screenCtx.fillRect(50, 430, 924, 150);
+        screenCtx.strokeStyle = '#252C39';
+        screenCtx.lineWidth = 1.5;
+        screenCtx.strokeRect(50, 430, 924, 150);
 
-        screenCtx.fillStyle = '#10B981';
-        screenCtx.font = '800 30px "JetBrains Mono", monospace';
-        screenCtx.fillText('READY', 90, 488);
+        screenCtx.fillStyle = '#C86414';
+        screenCtx.font = '700 22px "JetBrains Mono", monospace';
+        screenCtx.fillText('CORE FOCUS', 80, 475);
 
-        screenCtx.fillStyle = blinkState ? '#C86414' : '#181E28';
-        screenCtx.fillRect(235, 462, 16, 28);
+        screenCtx.fillStyle = '#FFFFFF';
+        screenCtx.font = '600 22px "JetBrains Mono", monospace';
+        screenCtx.fillText('Database Internals • Storage Engines • Distributed Systems', 80, 515);
+
+        screenCtx.fillStyle = '#737887';
+        screenCtx.font = '500 20px "JetBrains Mono", monospace';
+        screenCtx.fillText('C++17 • Java • Spring Boot • Python • Flutter', 80, 550);
 
         screenCtx.fillStyle = '#737887';
         screenCtx.font = '500 22px "JetBrains Mono", monospace';
-        screenCtx.fillText('KERNEL: v2026.09 // C++17 READY', 50, 640);
-        screenCtx.fillText('PORTFOLIO TELEMETRY STREAMING', 50, 685);
+        screenCtx.fillText('3D INTERACTIVE TERMINAL', 50, 650);
+        screenCtx.fillText('SCROLL OR DRAG TO EXPLORE', 50, 690);
 
       } else if (activeSec === 'engineering') {
         screenCtx.fillStyle = '#C86414';
         screenCtx.font = '700 28px "JetBrains Mono", monospace';
-        screenCtx.fillText('SYSTEM PROFILE', 50, 140);
+        screenCtx.fillText('TECHNICAL COMPETENCIES', 50, 140);
 
-        const skills = ['C++', 'JAVA', 'PYTHON', 'REACT', 'SPRING BOOT', 'DATABASE SYSTEMS'];
-        skills.forEach((skill, idx) => {
+        const skillEntries = [
+          { name: 'C++', tag: 'SYSTEMS PROGRAMMING' },
+          { name: 'JAVA', tag: 'BACKEND SERVICES' },
+          { name: 'PYTHON', tag: 'COMPUTER VISION & ML' },
+          { name: 'REACT', tag: 'FRONTEND ARCHITECTURE' },
+          { name: 'SPRING BOOT', tag: 'DISTRIBUTED SYSTEMS' },
+          { name: 'DATABASE SYSTEMS', tag: 'STORAGE ENGINES & ACID' }
+        ];
+
+        skillEntries.forEach((entry, idx) => {
           const sy = 220 + idx * 85;
           screenCtx.fillStyle = '#141820';
           screenCtx.fillRect(50, sy - 40, 924, 62);
@@ -350,11 +354,11 @@ export default function Terminal3D() {
 
           screenCtx.fillStyle = '#FFFFFF';
           screenCtx.font = '700 26px "JetBrains Mono", monospace';
-          screenCtx.fillText(skill, 130, sy);
+          screenCtx.fillText(entry.name, 130, sy);
 
-          screenCtx.fillStyle = '#10B981';
-          screenCtx.font = '600 20px "JetBrains Mono", monospace';
-          screenCtx.fillText('ACTIVE', 860, sy);
+          screenCtx.fillStyle = '#737887';
+          screenCtx.font = '600 18px "JetBrains Mono", monospace';
+          screenCtx.fillText(entry.tag, 620, sy);
         });
 
       } else if (activeSec === 'projects') {
@@ -363,10 +367,6 @@ export default function Terminal3D() {
           screenCtx.fillStyle = '#C86414';
           screenCtx.font = '700 28px "JetBrains Mono", monospace';
           screenCtx.fillText('PROJECT // EMBERDB', 50, 130);
-
-          screenCtx.fillStyle = '#10B981';
-          screenCtx.font = '700 18px "JetBrains Mono", monospace';
-          screenCtx.fillText('STATUS: ACTIVE', 780, 130);
 
           screenCtx.fillStyle = '#737887';
           screenCtx.font = '600 20px "JetBrains Mono", monospace';
@@ -428,10 +428,6 @@ export default function Terminal3D() {
           screenCtx.font = '700 28px "JetBrains Mono", monospace';
           screenCtx.fillText('PROJECT // MINI UPI', 50, 130);
 
-          screenCtx.fillStyle = '#10B981';
-          screenCtx.font = '700 18px "JetBrains Mono", monospace';
-          screenCtx.fillText('STATUS: ACTIVE', 780, 130);
-
           screenCtx.fillStyle = '#737887';
           screenCtx.font = '600 20px "JetBrains Mono", monospace';
           screenCtx.fillText('DISTRIBUTED PAYMENT SYSTEM', 50, 170);
@@ -465,18 +461,23 @@ export default function Terminal3D() {
           screenCtx.lineWidth = 1.5;
           screenCtx.strokeRect(50, 485, 924, 290);
 
-          const upiFlow = ['PAYMENT REQUEST', '→ BANK ROUTING', '→ BALANCE MUTATION', '→ LEDGER'];
-          upiFlow.forEach((step, si) => {
+          const upiFlow = [
+            { step: '01', name: 'PAYMENT REQUEST', desc: 'Idempotent Ingestion' },
+            { step: '02', name: 'BANK ROUTING', desc: 'Inter-Bank Clearance' },
+            { step: '03', name: 'BALANCE MUTATION', desc: 'Two-Phase Concurrency Lock' },
+            { step: '04', name: 'LEDGER RECORD', desc: 'Double-Entry Accounting' }
+          ];
+          upiFlow.forEach((item, si) => {
             const sy = 550 + si * 55;
-            screenCtx.fillStyle = '#10B981';
-            screenCtx.font = '700 24px "JetBrains Mono", monospace';
-            screenCtx.fillText('0' + (si + 1), 80, sy);
+            screenCtx.fillStyle = '#C86414';
+            screenCtx.font = '700 22px "JetBrains Mono", monospace';
+            screenCtx.fillText(item.step, 80, sy);
             screenCtx.fillStyle = '#FFFFFF';
-            screenCtx.font = '700 24px "JetBrains Mono", monospace';
-            screenCtx.fillText(step, 140, sy);
+            screenCtx.font = '700 22px "JetBrains Mono", monospace';
+            screenCtx.fillText(item.name, 140, sy);
             screenCtx.fillStyle = '#737887';
             screenCtx.font = '500 18px "JetBrains Mono", monospace';
-            screenCtx.fillText('VERIFIED // ACID', 680, sy);
+            screenCtx.fillText(item.desc, 560, sy);
           });
 
         } else if (activeProjIdx === 2) {
@@ -485,13 +486,9 @@ export default function Terminal3D() {
           screenCtx.font = '700 28px "JetBrains Mono", monospace';
           screenCtx.fillText('PROJECT // FITNESS TRACKER', 50, 130);
 
-          screenCtx.fillStyle = '#10B981';
-          screenCtx.font = '700 18px "JetBrains Mono", monospace';
-          screenCtx.fillText('STATUS: ACTIVE', 780, 130);
-
           screenCtx.fillStyle = '#737887';
           screenCtx.font = '600 20px "JetBrains Mono", monospace';
-          screenCtx.fillText('MOBILE / SENSOR TELEMETRY', 50, 170);
+          screenCtx.fillText('MOBILE / HEALTH & FITNESS', 50, 170);
 
           screenCtx.fillStyle = '#131720';
           screenCtx.fillRect(50, 205, 924, 205);
@@ -499,7 +496,7 @@ export default function Terminal3D() {
           screenCtx.lineWidth = 1.5;
           screenCtx.strokeRect(50, 205, 924, 205);
 
-          ['FLUTTER', 'DART', 'SQLITE', 'AI BIOMETRICS'].forEach((spec, i) => {
+          ['FLUTTER', 'DART', 'HIVE DB', 'MOTION TRACKING'].forEach((spec, i) => {
             const col = i % 2;
             const row = Math.floor(i / 2);
             const sx = 80 + col * 460;
@@ -514,7 +511,7 @@ export default function Terminal3D() {
 
           screenCtx.fillStyle = '#C86414';
           screenCtx.font = '700 22px "JetBrains Mono", monospace';
-          screenCtx.fillText('SYSTEM MODULES', 50, 465);
+          screenCtx.fillText('APPLICATION MODULES', 50, 465);
 
           screenCtx.fillStyle = '#12151B';
           screenCtx.fillRect(50, 485, 924, 290);
@@ -522,18 +519,23 @@ export default function Terminal3D() {
           screenCtx.lineWidth = 1.5;
           screenCtx.strokeRect(50, 485, 924, 290);
 
-          const fitModules = ['PEDOMETER', 'LOCAL STORAGE', 'ANALYTICS', 'AI ASSISTANT'];
+          const fitModules = [
+            { id: '01', name: 'STEP TRACKING', desc: 'Pedometer & Accelerometer' },
+            { id: '02', name: 'LOCAL STORAGE', desc: 'Hive DB Offline Persistence' },
+            { id: '03', name: 'SIGNAL PROCESSING', desc: 'Moving Average Smoothing' },
+            { id: '04', name: 'HEALTH INSIGHTS', desc: 'Activity & Trend Analytics' }
+          ];
           fitModules.forEach((mod, mi) => {
             const my = 550 + mi * 55;
-            screenCtx.fillStyle = '#10B981';
-            screenCtx.font = '700 24px "JetBrains Mono", monospace';
-            screenCtx.fillText('MOD_' + (mi + 1), 80, my);
+            screenCtx.fillStyle = '#C86414';
+            screenCtx.font = '700 22px "JetBrains Mono", monospace';
+            screenCtx.fillText(mod.id, 80, my);
             screenCtx.fillStyle = '#FFFFFF';
-            screenCtx.font = '700 24px "JetBrains Mono", monospace';
-            screenCtx.fillText(mod, 200, my);
+            screenCtx.font = '700 22px "JetBrains Mono", monospace';
+            screenCtx.fillText(mod.name, 140, my);
             screenCtx.fillStyle = '#737887';
             screenCtx.font = '500 18px "JetBrains Mono", monospace';
-            screenCtx.fillText('ONLINE', 760, my);
+            screenCtx.fillText(mod.desc, 520, my);
           });
 
         } else if (activeProjIdx === 3) {
@@ -542,13 +544,9 @@ export default function Terminal3D() {
           screenCtx.font = '700 28px "JetBrains Mono", monospace';
           screenCtx.fillText('PROJECT // ISL TRANSLATOR', 50, 130);
 
-          screenCtx.fillStyle = '#10B981';
-          screenCtx.font = '700 18px "JetBrains Mono", monospace';
-          screenCtx.fillText('STATUS: ACTIVE', 780, 130);
-
           screenCtx.fillStyle = '#737887';
           screenCtx.font = '600 20px "JetBrains Mono", monospace';
-          screenCtx.fillText('COMPUTER VISION / ML', 50, 170);
+          screenCtx.fillText('COMPUTER VISION / MACHINE LEARNING', 50, 170);
 
           screenCtx.fillStyle = '#131720';
           screenCtx.fillRect(50, 205, 924, 205);
@@ -571,7 +569,7 @@ export default function Terminal3D() {
 
           screenCtx.fillStyle = '#C86414';
           screenCtx.font = '700 22px "JetBrains Mono", monospace';
-          screenCtx.fillText('PIPELINE', 50, 465);
+          screenCtx.fillText('PROCESSING PIPELINE', 50, 465);
 
           screenCtx.fillStyle = '#12151B';
           screenCtx.fillRect(50, 485, 924, 290);
@@ -579,32 +577,39 @@ export default function Terminal3D() {
           screenCtx.lineWidth = 1.5;
           screenCtx.strokeRect(50, 485, 924, 290);
 
-          const islPipeline = ['CAMERA', '→ LANDMARKS', '→ MODEL', '→ PREDICTION'];
-          islPipeline.forEach((node, ni) => {
+          const islPipeline = [
+            { step: '01', name: 'FRAME INGESTION', desc: 'OpenCV Video Capture' },
+            { step: '02', name: 'LANDMARK TRACKING', desc: 'MediaPipe 21-Point 3D Joints' },
+            { step: '03', name: 'SEQUENCE BUFFER', desc: 'Temporal Feature Vectorization' },
+            { step: '04', name: 'CLASSIFICATION', desc: 'TensorFlow Gesture Model' }
+          ];
+          islPipeline.forEach((item, ni) => {
             const ny = 550 + ni * 55;
-            screenCtx.fillStyle = '#10B981';
-            screenCtx.font = '700 24px "JetBrains Mono", monospace';
-            screenCtx.fillText('STAGE_' + (ni + 1), 80, ny);
+            screenCtx.fillStyle = '#C86414';
+            screenCtx.font = '700 22px "JetBrains Mono", monospace';
+            screenCtx.fillText(item.step, 80, ny);
             screenCtx.fillStyle = '#FFFFFF';
-            screenCtx.font = '700 24px "JetBrains Mono", monospace';
-            screenCtx.fillText(node, 220, ny);
+            screenCtx.font = '700 22px "JetBrains Mono", monospace';
+            screenCtx.fillText(item.name, 140, ny);
             screenCtx.fillStyle = '#737887';
             screenCtx.font = '500 18px "JetBrains Mono", monospace';
-            screenCtx.fillText('INFERENCE: 30 FPS', 660, ny);
+            screenCtx.fillText(item.desc, 520, ny);
           });
         }
 
       } else if (activeSec === 'journey') {
         screenCtx.fillStyle = '#C86414';
         screenCtx.font = '700 28px "JetBrains Mono", monospace';
-        screenCtx.fillText('SYSTEM LOG', 50, 140);
+        screenCtx.fillText('JOURNEY & TRAJECTORY', 50, 140);
 
-        [
-          { year: '2023', text: 'SYSTEMS & LOW-LEVEL COMPUTING' },
-          { year: '2024', text: 'DISTRIBUTED BACKENDS' },
-          { year: '2025', text: 'DATABASE ENGINEERING' }
-        ].forEach((log, idx) => {
-          const ly = 230 + idx * 140;
+        const journeyEntries = [
+          { period: '2026 — PRESENT', title: 'SYSTEMS & ARCHITECTURE', desc: 'Low-Level Storage Engines & Database Internals' },
+          { period: '2024 — 2026', title: 'DISTRIBUTED BACKENDS & APPS', desc: 'Payment Systems & Offline-First Mobile' },
+          { period: '2022 — 2024', title: 'CS FOUNDATIONS & VISION', desc: 'Data Structures, Operating Systems & Vision' }
+        ];
+
+        journeyEntries.forEach((log, idx) => {
+          const ly = 230 + idx * 170;
           screenCtx.fillStyle = '#141820';
           screenCtx.fillRect(50, ly - 45, 924, 105);
           screenCtx.strokeStyle = '#252C39';
@@ -612,32 +617,36 @@ export default function Terminal3D() {
           screenCtx.strokeRect(50, ly - 45, 924, 105);
 
           screenCtx.fillStyle = '#C86414';
-          screenCtx.font = '700 28px "JetBrains Mono", monospace';
-          screenCtx.fillText(log.year, 80, ly + 6);
+          screenCtx.font = '700 24px "JetBrains Mono", monospace';
+          screenCtx.fillText(log.period, 80, ly + 6);
 
           screenCtx.fillStyle = '#FFFFFF';
-          screenCtx.font = '600 24px "JetBrains Mono", monospace';
-          screenCtx.fillText(log.text, 80, ly + 46);
+          screenCtx.font = '600 22px "JetBrains Mono", monospace';
+          screenCtx.fillText(log.title, 80, ly + 42);
+
+          screenCtx.fillStyle = '#737887';
+          screenCtx.font = '500 18px "JetBrains Mono", monospace';
+          screenCtx.fillText(log.desc, 80, ly + 82);
         });
 
       } else if (activeSec === 'contact') {
-        screenCtx.fillStyle = '#10B981';
+        screenCtx.fillStyle = '#C86414';
         screenCtx.font = '700 26px "JetBrains Mono", monospace';
-        screenCtx.fillText('CONNECTION READY', 50, 160);
+        screenCtx.fillText('DIRECT CONTACT', 50, 160);
 
         screenCtx.fillStyle = '#FFFFFF';
         screenCtx.font = '800 64px "Space Grotesk", sans-serif';
         screenCtx.fillText("LET'S BUILD", 50, 280);
         screenCtx.fillText('SOMETHING.', 50, 360);
 
-        screenCtx.fillStyle = '#C86414';
-        screenCtx.font = '600 24px "JetBrains Mono", monospace';
-        screenCtx.fillText('STATUS: LISTENING ON ALL CHANNELS', 50, 460);
+        screenCtx.fillStyle = '#10B981';
+        screenCtx.font = '600 22px "JetBrains Mono", monospace';
+        screenCtx.fillText('OPEN TO OPPORTUNITIES', 50, 460);
 
         screenCtx.fillStyle = '#737887';
         screenCtx.font = '500 22px "JetBrains Mono", monospace';
-        screenCtx.fillText('faizaan.eng@example.com', 50, 520);
-        screenCtx.fillText('github.com/faizaan', 50, 560);
+        screenCtx.fillText('mohdfaizaan35@gmail.com', 50, 520);
+        screenCtx.fillText('github.com/faizaan35', 50, 560);
       }
 
       screenTexture.needsUpdate = true;
@@ -801,13 +810,6 @@ export default function Terminal3D() {
       camera.position.y = THREE.MathUtils.damp(camera.position.y, targetCamY, camDampRate, delta);
       camera.position.z = THREE.MathUtils.damp(camera.position.z, targetCamZ, camDampRate, delta);
       camera.lookAt(targetCamX * 0.4, 0, 0);
-
-      const telemetryEl = document.getElementById('telemetry-display');
-      if (telemetryEl) {
-        const pitchDeg = ((terminalRoot.rotation.x * 180) / Math.PI).toFixed(1);
-        const yawDeg = ((terminalRoot.rotation.y * 180) / Math.PI).toFixed(1);
-        telemetryEl.textContent = `PITCH: ${pitchDeg}° / YAW: ${yawDeg}°`;
-      }
 
       renderer.render(scene, camera);
     }

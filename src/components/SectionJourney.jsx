@@ -6,7 +6,7 @@ export default function SectionJourney() {
     <section id="journey" className="min-h-screen py-28 px-6 max-w-7xl mx-auto flex flex-col justify-center">
       <div className="max-w-2xl mb-16">
         <div className="font-mono text-xs text-engineering-amber tracking-widest uppercase mb-2 font-bold">
-          04 // CHRONICLE & PROGRESSION
+          04 // JOURNEY
         </div>
         <h2 className="text-4xl sm:text-5xl font-display font-bold tracking-tight text-charcoal-900">
           Engineering Trajectory

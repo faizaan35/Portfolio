@@ -3,7 +3,7 @@ import gsap from 'gsap';
 
 /**
  * Depth Carousel (GSAP Engine)
- * Adapted with 'renderCard' prop to display technical project dossiers
+ * Adapted with 'renderCard' prop to display technical project cards
  * with full 3D Z-depth, spread, tilt, pointer dragging, wheel scrolling, and keyboard control.
  */
 export default function DepthCarousel({
