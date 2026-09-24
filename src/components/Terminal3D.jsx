@@ -14,16 +14,23 @@ export default function Terminal3D() {
       alpha: true,
       powerPreference: 'high-performance'
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const isMobileInitial = window.innerWidth < 1024;
+    const isPhoneInitial = window.innerWidth < 640;
+    const dprCapInitial = isMobileInitial ? Math.min(window.devicePixelRatio, 1.6) : Math.min(window.devicePixelRatio, 2);
+    renderer.setPixelRatio(dprCapInitial);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.12;
 
     const scene = new THREE.Scene();
 
-    const isMobileInitial = window.innerWidth < 768;
-    const camera = new THREE.PerspectiveCamera(isMobileInitial ? 42 : 36, window.innerWidth / window.innerHeight, 0.1, 50);
-    camera.position.set(0, 0, isMobileInitial ? 6.8 : 5.4);
+    const camera = new THREE.PerspectiveCamera(
+      isPhoneInitial ? 42 : isMobileInitial ? 38 : 36,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      50
+    );
+    camera.position.set(0, 0, isPhoneInitial ? 6.4 : isMobileInitial ? 6.5 : 5.4);
 
     // Studio precision lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.15);
@@ -659,7 +666,7 @@ export default function Terminal3D() {
     let manualRotX = 0;
 
     const onMouseDown = (e) => {
-      if (e.target.closest('button, a, input, .depth-carousel-container, article')) return;
+      if (e.target.closest('button, a, input, .depth-carousel-container, article, nav')) return;
       isDragging = true;
       dragStartX = e.clientX;
       dragStartY = e.clientY;
@@ -680,26 +687,57 @@ export default function Terminal3D() {
       isDragging = false;
     };
 
+    // Mobile Smart Touch Handling: Distinguishes between natural page scrolling and deliberate terminal rotation
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isTouchRotating = false;
+    let touchDetermined = false;
+
     const onTouchStart = (e) => {
-      if (e.target.closest('button, a, input, .depth-carousel-container, article')) return;
-      isDragging = true;
-      dragStartX = e.touches[0].clientX;
-      dragStartY = e.touches[0].clientY;
+      if (e.touches.length !== 1) return;
+      if (e.target.closest('button, a, input, .depth-carousel-container, article, nav')) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      isTouchRotating = false;
+      touchDetermined = false;
     };
 
     const onTouchMove = (e) => {
-      if (!isDragging) return;
-      const dx = e.touches[0].clientX - dragStartX;
-      const dy = e.touches[0].clientY - dragStartY;
-      manualRotY += dx * 0.005;
-      manualRotX += dy * 0.005;
-      manualRotX = Math.max(-0.45, Math.min(0.45, manualRotX));
-      dragStartX = e.touches[0].clientX;
-      dragStartY = e.touches[0].clientY;
+      if (e.touches.length !== 1) return;
+      const currentX = e.touches[0].clientX;
+      const currentY = e.touches[0].clientY;
+      const dx = currentX - touchStartX;
+      const dy = currentY - touchStartY;
+
+      if (!touchDetermined) {
+        const absDx = Math.abs(dx);
+        const absDy = Math.abs(dy);
+        if (absDx > 7 || absDy > 7) {
+          touchDetermined = true;
+          // Predominantly horizontal swipe: rotate the 3D terminal
+          if (absDx > absDy * 1.25) {
+            isTouchRotating = true;
+            touchStartX = currentX;
+            touchStartY = currentY;
+          } else {
+            // Predominantly vertical swipe: let natural page scroll happen without terminal fighting
+            isTouchRotating = false;
+          }
+        }
+      }
+
+      if (isTouchRotating) {
+        manualRotY += dx * 0.007;
+        manualRotX += dy * 0.003;
+        manualRotX = Math.max(-0.35, Math.min(0.35, manualRotX));
+        touchStartX = currentX;
+        touchStartY = currentY;
+      }
     };
 
     const onTouchEnd = () => {
-      isDragging = false;
+      isTouchRotating = false;
+      touchDetermined = false;
     };
 
     window.addEventListener('mousedown', onMouseDown);
@@ -717,7 +755,14 @@ export default function Terminal3D() {
       animationFrameId = requestAnimationFrame(animate);
       const delta = Math.min(clock.getDelta(), 0.1);
       const t = clock.getElapsedTime();
-      const isMobile = window.innerWidth < 768;
+
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const isDesktop = width >= 1024;
+      const isMobile = !isDesktop;
+      const isPhone = width < 640;
+      const isTablet = isMobile && !isPhone;
+      const isLandscapeMobile = isMobile && width > height && height < 520;
 
       renderScreenFrame(delta, t);
 
@@ -727,67 +772,196 @@ export default function Terminal3D() {
 
       const curSec = window.__portfolioActiveSection || 'intro';
 
-      let targetPosX = isMobile ? 0.0 : 1.35;
-      let targetPosY = isMobile ? -0.85 : 0.0;
+      let targetPosX = 1.35;
+      let targetPosY = 0.0;
       let targetPosZ = 0.0;
       let targetRotX = 0.12;
       let targetRotY = -0.28;
       let targetRotZ = 0.02;
-      let targetScale = isMobile ? 0.78 : 1.0;
+      let targetScale = 1.0;
       let targetCamX = 0.0;
       let targetCamY = 0.0;
-      let targetCamZ = isMobile ? 6.8 : 5.4;
+      let targetCamZ = 5.4;
 
-      if (curSec === 'intro') {
-        targetPosX = isMobile ? 0.0 : 1.35;
-        targetPosY = isMobile ? -0.85 : 0.0;
+      if (isDesktop) {
+        // Desktop Baseline Layout - 100% Intact
+        if (curSec === 'intro') {
+          targetPosX = 1.35;
+          targetPosY = 0.0;
+          targetPosZ = 0.0;
+          targetRotX = 0.12;
+          targetRotY = -0.28;
+          targetRotZ = 0.02;
+          targetScale = 1.0;
+          targetCamX = 0.0;
+          targetCamZ = 5.4;
+        } else if (curSec === 'engineering') {
+          targetPosX = 1.80;
+          targetPosY = 0.10;
+          targetPosZ = -0.15;
+          targetRotX = 0.19;
+          targetRotY = -0.11;
+          targetRotZ = 0.01;
+          targetScale = 1.03;
+          targetCamX = 0.12;
+          targetCamZ = 4.95;
+        } else if (curSec === 'projects') {
+          targetPosX = 2.05;
+          targetPosY = 0.05;
+          targetPosZ = -0.20;
+          targetRotX = 0.07;
+          targetRotY = -0.29;
+          targetRotZ = 0.015;
+          targetScale = 1.05;
+          targetCamX = 0.18;
+          targetCamZ = 5.1;
+        } else if (curSec === 'journey') {
+          targetPosX = 1.55;
+          targetPosY = -0.25;
+          targetPosZ = 0.0;
+          targetRotX = 0.08;
+          targetRotY = -0.18;
+          targetRotZ = 0.01;
+          targetScale = 1.0;
+          targetCamX = 0.05;
+          targetCamZ = 5.35;
+        } else if (curSec === 'contact') {
+          targetPosX = 1.25;
+          targetPosY = 0.0;
+          targetPosZ = 0.0;
+          targetRotX = 0.12;
+          targetRotY = -0.26;
+          targetRotZ = 0.02;
+          targetScale = 1.0;
+          targetCamX = 0.0;
+          targetCamZ = 5.4;
+        }
+      } else {
+        // Mobile & Tablet Layout - Intentionally Framed in Dedicated Section Stages
+        targetPosX = 0.0;
         targetPosZ = 0.0;
-        targetRotX = 0.12;
-        targetRotY = -0.28;
-        targetRotZ = 0.02;
-        targetScale = isMobile ? 0.78 : 1.0;
         targetCamX = 0.0;
-        targetCamZ = isMobile ? 6.8 : 5.4;
-      } else if (curSec === 'engineering') {
-        targetPosX = isMobile ? 0.0 : 1.80;
-        targetPosY = isMobile ? -0.75 : 0.10;
-        targetPosZ = -0.15;
-        targetRotX = 0.19;
-        targetRotY = -0.11;
-        targetRotZ = 0.01;
-        targetScale = isMobile ? 0.80 : 1.03;
-        targetCamX = 0.12;
-        targetCamZ = isMobile ? 6.6 : 4.95;
-      } else if (curSec === 'projects') {
-        targetPosX = isMobile ? 0.0 : 2.05;
-        targetPosY = isMobile ? -0.75 : 0.05;
-        targetPosZ = -0.20;
-        targetRotX = 0.07;
-        targetRotY = -0.29;
-        targetRotZ = 0.015;
-        targetScale = isMobile ? 0.82 : 1.05;
-        targetCamX = 0.18;
-        targetCamZ = isMobile ? 6.6 : 5.1;
-      } else if (curSec === 'journey') {
-        targetPosX = isMobile ? 0.0 : 1.55;
-        targetPosY = isMobile ? -0.80 : -0.25;
-        targetPosZ = 0.0;
-        targetRotX = 0.08;
-        targetRotY = -0.18;
-        targetRotZ = 0.01;
-        targetScale = isMobile ? 0.78 : 1.0;
-        targetCamX = 0.05;
-        targetCamZ = isMobile ? 6.8 : 5.35;
-      } else if (curSec === 'contact') {
-        targetPosX = isMobile ? 0.0 : 1.25;
-        targetPosY = isMobile ? -0.85 : 0.0;
-        targetPosZ = 0.0;
-        targetRotX = 0.12;
-        targetRotY = -0.26;
-        targetRotZ = 0.02;
-        targetScale = isMobile ? 0.78 : 1.0;
-        targetCamX = 0.0;
-        targetCamZ = isMobile ? 6.8 : 5.4;
+        targetCamY = 0.0;
+
+        if (isLandscapeMobile) {
+          targetScale = 0.52;
+          targetCamZ = 6.2;
+          targetPosY = 0.0;
+          targetRotX = 0.05;
+          targetRotY = -0.05;
+          targetRotZ = 0.0;
+        } else if (isTablet) {
+          // Portrait Tablet (640px to 1023px)
+          targetScale = 0.68;
+          targetCamZ = 6.5;
+          targetRotX = 0.08;
+          targetRotY = -0.06;
+          targetRotZ = 0.0;
+
+          if (curSec === 'intro') {
+            targetPosY = -0.42;
+          } else if (curSec === 'engineering') {
+            targetPosY = 0.06;
+          } else if (curSec === 'projects') {
+            targetPosY = 0.06;
+          } else if (curSec === 'journey') {
+            targetPosY = 0.06;
+          } else if (curSec === 'contact') {
+            targetPosY = -0.38;
+          }
+        } else {
+          // Portrait Phone (< 640px)
+          if (window.__mobileScrollProgress !== undefined) {
+            const p = window.__mobileScrollProgress;
+            targetPosX = 0.0;
+            targetPosZ = 0.0;
+            targetCamX = 0.0;
+            targetCamY = 0.0;
+
+            if (p <= 0.15) {
+              // Stage 1: Hero Intro framing
+              targetScale = 0.66;
+              targetPosY = -0.32;
+              targetCamZ = 6.4;
+              targetRotX = 0.08;
+              targetRotY = -0.06;
+              targetRotZ = 0.0;
+            } else if (p <= 0.32) {
+              // Stage 2: Smooth Terminal Takeover Transition
+              const t = (p - 0.15) / (0.32 - 0.15);
+              const easeT = t * t * (3 - 2 * t);
+              targetScale = 0.66 + easeT * (1.02 - 0.66);
+              targetPosY = -0.32 + easeT * (0.02 - -0.32);
+              targetCamZ = 6.4 + easeT * (4.38 - 6.4);
+              targetRotX = 0.08 + easeT * (0.04 - 0.08);
+              targetRotY = -0.06 + easeT * (-0.02 - -0.06);
+              targetRotZ = 0.0;
+            } else if (p <= 0.48) {
+              // Stage 3: Engineering Fullscreen Terminal
+              targetScale = 1.02;
+              targetPosY = 0.02;
+              targetCamZ = 4.38;
+              targetRotX = 0.04;
+              targetRotY = -0.02;
+              targetRotZ = 0.0;
+            } else if (p <= 0.54) {
+              // Transition from Engineering to Projects
+              const t = (p - 0.48) / (0.54 - 0.48);
+              const easeT = t * t * (3 - 2 * t);
+              targetScale = 1.02 + easeT * (1.04 - 1.02);
+              targetPosY = 0.02 + easeT * (0.03 - 0.02);
+              targetCamZ = 4.38 + easeT * (4.35 - 4.38);
+              targetRotX = 0.04;
+              targetRotY = -0.02 + easeT * (-0.07 - -0.02);
+              targetRotZ = 0.0;
+            } else if (p <= 0.72) {
+              // Stage 4: Projects Fullscreen Terminal
+              targetScale = 1.04;
+              targetPosY = 0.03;
+              targetCamZ = 4.35;
+              targetRotX = 0.04;
+              targetRotY = -0.07;
+              targetRotZ = 0.0;
+            } else if (p <= 0.88) {
+              // Stage 5: Journey Fullscreen Terminal
+              targetScale = 1.01;
+              targetPosY = 0.02;
+              targetCamZ = 4.40;
+              targetRotX = 0.05;
+              targetRotY = 0.04;
+              targetRotZ = 0.0;
+            } else {
+              // Stage 6: Contact & Release down to frame contact cards
+              const t = Math.min(1.0, (p - 0.88) / (1.0 - 0.88));
+              const easeT = t * t * (3 - 2 * t);
+              targetScale = 1.01 - easeT * (1.01 - 0.72);
+              targetPosY = 0.02 - easeT * (0.02 - -0.32);
+              targetCamZ = 4.40 + easeT * (5.85 - 4.40);
+              targetRotX = 0.05 + easeT * (0.08 - 0.05);
+              targetRotY = 0.04 - easeT * (0.04 - -0.05);
+              targetRotZ = 0.0;
+            }
+          } else {
+            // Portrait Phone Fallback (when not using scrubbed progress)
+            targetScale = 0.66;
+            targetCamZ = 6.4;
+            targetRotX = 0.08;
+            targetRotY = -0.06;
+            targetRotZ = 0.0;
+
+            if (curSec === 'intro') {
+              targetPosY = -0.32;
+            } else if (curSec === 'engineering') {
+              targetPosY = 0.08;
+            } else if (curSec === 'projects') {
+              targetPosY = 0.08;
+            } else if (curSec === 'journey') {
+              targetPosY = 0.08;
+            } else if (curSec === 'contact') {
+              targetPosY = -0.32;
+            }
+          }
+        }
       }
 
       // Exponential decay smoothing for 600-900ms smooth settle
@@ -819,14 +993,25 @@ export default function Terminal3D() {
     const handleResize = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
-      const isMobile = width < 768;
+      const isDesktop = width >= 1024;
+      const isLandscapeMobile = !isDesktop && width > height && height < 520;
+      const isPhone = width < 640;
 
       camera.aspect = width / height;
-      camera.fov = isMobile ? 42 : 36;
+      if (isDesktop) {
+        camera.fov = 36;
+      } else if (isLandscapeMobile) {
+        camera.fov = 34;
+      } else if (isPhone) {
+        camera.fov = 42;
+      } else {
+        camera.fov = 38;
+      }
       camera.updateProjectionMatrix();
 
       renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      const dprCap = isDesktop ? Math.min(window.devicePixelRatio, 2) : Math.min(window.devicePixelRatio, 1.6);
+      renderer.setPixelRatio(dprCap);
     };
 
     window.addEventListener('resize', handleResize);
